@@ -1,0 +1,20 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+  <meta http-equiv="refresh" content="5"></meta>
+  {% for message in chatmessages %}
+  <pre>{{message.author}}:{{message.content}}</pre>
+  {% endfor %}
+
+  <form method = "POST">
+    {% csrf_token %}
+  <fieldset class = "form-group">
+    <div class= "form-data">
+      <table>{{ form|crispy }}</table>
+    </div>
+  </fieldset>
+  <div class="form-group">
+    <button class="btn btn-outline-info" type="submit"> Submit </button>
+  </div>
+  </form>
+{% endblock content %}
