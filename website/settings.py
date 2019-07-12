@@ -51,8 +51,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'users.middleware.ActiveUserMiddleware',
 ]
-
 ROOT_URLCONF = 'website.urls'
 
 TEMPLATES = [
@@ -102,6 +102,12 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+            'LOCATION': '127.0.0.1:11211',
+        }
+    }
 
 
 # Internationalization
@@ -116,6 +122,8 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+USER_ONLINE_TIMEOUT = 300
+USER_LASTSEEN_TIMEOUT = 60 * 60 * 24 * 7
 
 
 # Static files (CSS, JavaScript, Images)

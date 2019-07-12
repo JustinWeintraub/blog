@@ -8,7 +8,7 @@ from django.contrib.auth.models import User #communications between users and po
 class ChatMessage(models.Model):
     author=models.ForeignKey(User,on_delete=models.CASCADE) #replace on delete with on active
     date_posted=models.DateTimeField(default=timezone.now())
-    content=models.CharField(max_length=50)
+    content=models.CharField(max_length=100)
     def __str__(self):
         return f'{self.author.username}:{self.content}'
 # Create your models here.

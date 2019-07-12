@@ -1,11 +1,12 @@
 {% extends "blog/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-  <meta http-equiv="refresh" content="5"></meta>
+  <!--<meta http-equiv="refresh" content="5"></meta>-->
+  <div id = "responses" class="chat-area">
   {% for message in chatmessages %}
-  <pre>{{message.author}}:{{message.content}}</pre>
+  <p>{{message.author}}:{{message.content}}</p>
   {% endfor %}
-
+  </div>
   <form method = "POST">
     {% csrf_token %}
   <fieldset class = "form-group">
@@ -17,4 +18,13 @@
     <button class="btn btn-outline-info" type="submit"> Submit </button>
   </div>
   </form>
+  <script>
+$(document).ready(function() {
+  var my_refresh = setInterval(function() {
+    $('#responses').load('/log/');
+  }, 2000);
+});
+var element = document.getElementById("responses");
+element.scrollTop = element.scrollHeight;
+</script>
 {% endblock content %}

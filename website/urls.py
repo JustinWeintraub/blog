@@ -22,6 +22,7 @@ from users import views as user_views
 from chat import views as chat_views
 urlpatterns = [
     path('', include('blog.urls')),
+    path('log/', chat_views.log, name='get_log'),
     path('admin/', admin.site.urls),
     path('register/', user_views.register, name="register"),
     path('profile/', user_views.profile, name="profile"),

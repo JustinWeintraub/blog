@@ -78,7 +78,18 @@ a.article-title:hover {
   margin-right: 20px;
   margin-bottom: 16px;
 }
-
+.chat-area{
+  background-color: #ffffff;
+  margin-left: 3px;
+  height:400px;
+  max-height: 400px;
+  width: 750px;
+  margin-bottom: 10px;
+  overflow-y:scroll;
+  word-wrap: break-word;
+  border-style:solid;
+  border-width: 1px;
+}
 .account-heading {
   font-size: 2.5rem;
 }
