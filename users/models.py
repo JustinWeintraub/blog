@@ -4,7 +4,7 @@ from PIL import Image
 from django.core.cache import cache
 import datetime
 from website import settings
-
+User._meta.get_field('email')._unique = True
 class Profile(models.Model):
     user=models.OneToOneField(User, on_delete=models.CASCADE)
     image=models.ImageField(default='default.jpg', upload_to='profile_pics')
