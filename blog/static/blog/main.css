@@ -33,7 +33,7 @@ ul {
   padding: 10px 20px;
   border: 1px solid #dddddd;
   border-radius: 3px;
-  margin-bottom: 20px;
+  margin-bottom: 1px;
 }
 
 .article-title {
@@ -99,4 +99,10 @@ a.article-title:hover {
   position:absolute;
   top:2px;
   left:900px;
+}
+.comment-creation {
+  width:500px;
+  padding: 10px 20px;
+  border: 1px solid #dddddd;
+  margin-bottom: 20px;
 }

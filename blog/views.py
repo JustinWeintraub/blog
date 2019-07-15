@@ -1,11 +1,16 @@
-from django.shortcuts import render, get_object_or_404 #shortcuts to templates
+from django.shortcuts import render, get_object_or_404, redirect #shortcuts to templates
 #from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin,UserPassesTestMixin
-from .models import Post
+from .models import Post, Comments
+from django.http import HttpResponse
+from .forms import CommentForm as Creation
+import json
 from django.views.generic import (
 ListView, DetailView, CreateView, UpdateView,DeleteView
 )
+from django.http import JsonResponse
+
 '''python3 manage.py startapp blog'''
 # Create your views here.
 '''posts=[
@@ -22,17 +27,52 @@ ListView, DetailView, CreateView, UpdateView,DeleteView
         'date_posted':'July 0th, 2019'
     },
 ]'''
-def home(request):
+def home(request): #unused
     context={
-    'posts':Post.objects.all()
+    'posts':Post.objects.all(),
     }
     return render(request, 'blog/home.html', context)
 class PostListView(ListView):
+    def post(self,request):
+        print(request.POST)
+        form = Creation(request.POST)
+        if (form.is_valid() and request.user.is_authenticated):
+            #print(form.author.id)
+            form=form.save(commit=False)
+            form.author=request.user
+            form.post_id=request.POST['post_id']
+            saver=Post.objects.get(id=request.POST['post_id'])
+            form.save()
+            try: #depending on database, one will work
+                saver.comments.append(form)
+                saver.save()
+            except:
+                saver=Post.objects.filter(id=request.POST['post_id'])
+                temp=[]
+                temp.append(form)
+                saver.update(comments=temp)
+        return redirect('blog-home')
+    def get_context_data(self, **kwargs):
+        context = super(PostListView, self).get_context_data(**kwargs)
+        context['comments'] = Comments.objects.all()
+        context['form']=Creation()
+        return context
     model=Post
     template_name='blog/home.html'#<app>/<model>_<viewtype>.html blog/post_list.html
     context_object_name='posts'
-    ordering=['-date_posted'] #newest to odlest
+    ordering=['-date_posted'] #newest to oldest
     paginate_by=2
+
+def comment(request):
+    if(request.method=="POST"):
+        data = request.POST.get("postid", "0")
+        commentlist=[]
+        for comment in Comments.objects.filter(post_id=data):
+            commentlist.append(str(comment.author))
+            commentlist.append(str(comment.content))
+    return(JsonResponse(commentlist, safe=False))
+# Create your views here.
+
 class UserPostListView(ListView):
     model=Post
     template_name='blog/user_posts.html'#<app>/<model>_<viewtype>.html blog/post_list.html
@@ -71,3 +111,9 @@ class PostDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
 def about(request):
     #return HttpResponse('<h1>Blog About</h1>')
     return render(request, 'blog/about.html', {'title':'About'})
+
+'''{% if comments.objects.filter(post_id=post.id) %}
+  {% for comment in comments.objects.filter(post_id=post.id) %}
+  <p>Temp</p>
+  {% endfor %}
+{% endif %}'''

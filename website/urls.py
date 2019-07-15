@@ -20,9 +20,12 @@ from django.contrib.auth import views as auth_views
 from django.urls import path, include
 from users import views as user_views
 from chat import views as chat_views
+from blog import views as blog_views
+
 urlpatterns = [
     path('', include('blog.urls')),
     path('log/', chat_views.log, name='get_log'),
+    path('comment/', blog_views.comment, name='get_comment'),
     path('admin/', admin.site.urls),
     path('register/', user_views.register, name="register"),
     path('profile/', user_views.profile, name="profile"),

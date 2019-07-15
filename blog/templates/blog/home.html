@@ -1,4 +1,5 @@
 {% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
 {% block content %}
     {% for post in posts %}
         <article class="media content-section">
@@ -11,7 +12,47 @@
             <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
             <p class="article-content">{{ post.content }}</p>
           </div>
+
         </article>
+        <article class = "media content-section">
+        <div class="comments" id="comments{{post.id}}"></div>
+        </article>
+          <script>
+            $.ajax({
+              type: "POST",
+              url: '/comment/',
+              data: {
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                postid:JSON.stringify({{post.id}})
+              },
+              success: function(comment){//prints all comments
+                comment.reverse() //so in order date posted
+                for (var i=0; i<comment.length; i+=2){
+                  var author=document.createElement("div");
+                  author.innerHTML=comment[i+1];
+                  author.className="article-metadata"
+                  var content=document.createElement("p");
+                  content.innerHTML=comment[i];
+                  content.className="article-content"
+                  console.log(comment[i])
+                  document.getElementById("comments{{post.id}}").appendChild(author);
+                  document.getElementById("comments{{post.id}}").appendChild(content);
+                }
+              }
+            });
+          </script>
+        <form class= "comment-creation" method="POST">
+          {% csrf_token %}
+          <fieldset class="form-group">
+            <div class="form-data">
+              <table>{{ form|crispy }}</table>
+            </div>
+          </fieldset>
+          <div class="form-group">
+            <input type="hidden" name="post_id" value={{post.id}} />
+            <button class="btn btn-outline-info" type="submit"> Submit </button>
+          </div>
+        </form>
     {% endfor %}
     {% if is_paginated %}
       {% if page_obj.has_previous %}
