@@ -18,11 +18,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '$tfia^@4ytbf^(%v%_#-6(v8v2zx9co&4x5!1nm#wb#a5#_l_w'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+'djangowebsiteblogapp.herokuapp.com',
+]
 
 
 # Application definition
@@ -38,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'storages'
 ]
 
 MIDDLEWARE = [
@@ -149,3 +152,10 @@ EMAIL_PORT=587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER=os.environ.get('EMAIL_USER')
 EMAIL_HOST_PASSWORD=os.environ.get('EMAIL_PASS')
+
+AWS_ACCESS_KEY_ID=os.environ.get(AWS_ACCESS_KEY_ID)
+AWS_SECRET_ACCESS_KEY=os.environ.get(AWS_SECRET_ACCESS_KEY)
+AWS_BUCKET_NAME=os.environ.get(AWS_BUCKET_NAME)
+AWS_S3_FILE_OVERWRITE=False
+AWS_DEFAULT_ACL=None
+DEFAULT_FILE_STORAGE=="storages.backends.s3boto3.S3Boto3Storage"
