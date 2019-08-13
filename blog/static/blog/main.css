@@ -24,6 +24,14 @@ ul {
   color: #ffffff;
 }
 
+.nav-button {
+  background-color: #5f788a;
+  color: #cbd5db;
+  margin-top: 1px;
+
+
+}
+
 .site-header .navbar-nav .nav-link.active {
   font-weight: 500;
 }
@@ -105,4 +113,7 @@ a.article-title:hover {
   padding: 10px 20px;
   border: 1px solid #dddddd;
   margin-bottom: 20px;
+}
+.about-title{
+  font-size: 50px;
 }

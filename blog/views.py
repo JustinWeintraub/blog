@@ -111,7 +111,8 @@ class PostDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
 def about(request):
     #return HttpResponse('<h1>Blog About</h1>')
     return render(request, 'blog/about.html', {'title':'About'})
-
+def contact(request):
+    return render(request, 'blog/contact.html', {'title':'About'})
 '''{% if comments.objects.filter(post_id=post.id) %}
   {% for comment in comments.objects.filter(post_id=post.id) %}
   <p>Temp</p>
