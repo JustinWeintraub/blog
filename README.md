@@ -1,4 +1,7 @@
 # Django blog and more
+
+Link to project: https://justinweintraub.herokuapp.com/
+
 This is a project I have that serves as a multipurpouse website. This was made using Django, and was based off of the tutorial series from CoreyMS. I followed along that tutorial and learned a lot of useful Django skills alongo the way. This uses Amazon's AWS for storage and is run on Heroku. I've also added some addons to Heroku so I could allow for a chat room feature.
 
 
